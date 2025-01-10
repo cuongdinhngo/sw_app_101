@@ -1,15 +1,15 @@
 // <plugin root>/src/Resources/app/administration/src/module/swag-example/index.js
-// import './page/swag-example-list';
+import './page/swag-example-list';
 // import './page/swag-example-detail';
 // import './page/swag-example-create';
-import deDE from './snippet/de-DE';
-import enGB from './snippet/en-GB';
+import deDE from '../../snippet/de-DE';
+import enGB from '../../snippet/en-GB';
 
 Shopware.Module.register('swag-example', {
     type: 'plugin',
-    name: 'Example',
+    name: 'Shop Finder',
     title: 'swag-example.general.mainMenuItemGeneral',
-    description: 'sw-property.general.descriptionTextModule',
+    description: 'swag-example.general.descriptionTextModule',
     color: '#ff3d58',
     icon: 'default-shopping-paper-bag-product',
 
@@ -37,15 +37,16 @@ Shopware.Module.register('swag-example', {
         //         parentPath: 'swag.example.list'
         //     }
         // }
-        a: {
-            component: 'b'
+        index: {
+            component: 'swag-example-list',
+            path: 'index'
         }
     },
 
     navigation: [{
         label: 'swag-example.general.mainMenuItemGeneral',
         color: '#ff3d58',
-        path: 'swag.example.list',
+        path: 'swag.example.index',
         icon: 'default-shopping-paper-bag-product',
         position: 100
     }]

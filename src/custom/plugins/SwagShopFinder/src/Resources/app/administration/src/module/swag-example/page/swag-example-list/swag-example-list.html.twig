@@ -1,0 +1,25 @@
+{% block swag_bundle_list %}
+    <sw-page class="swag-example-list">
+        {% block swag_example_list_smart_bar_action %}
+        <template #smart-bar-action>
+            <sw-button variant="primary" :routerLink="{name: 'swag.example.create'}">
+                {{ $tc('swag-example.list.addButtonText') }}
+            </sw-button>
+        </template>
+        {% endblock %}
+
+        <template #content>
+            {% block swag_example_list_content %}
+                <sw-entity-listing
+                    v-if="bundles"
+                    :item="bundles"
+                    :repository="repository"
+                    :showSelection="false"
+                    :columns="columns"
+                    detailRoute="swag.example.detail"
+                >
+                </sw-entity-listing>
+            {% endblock %}
+        </template>
+    </sw-page>
+{% endblock %}

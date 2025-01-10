@@ -3,6 +3,12 @@
         "general": {
             "mainMenuItemGeneral": "Shop Finder Plugin",
             "descriptionTextModule": "[en-GB] Shop Finder Plugin"
+        },
+        "list": {
+            "addButtonText": "Add bundle",
+            "columnName": "Name",
+            "columnDiscountType": "Discount Type",
+            "columnDiscount": "Discount"
         }
     }
 }
