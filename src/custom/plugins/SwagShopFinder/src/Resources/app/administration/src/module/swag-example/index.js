@@ -6,7 +6,7 @@ import deDE from '../../snippet/de-DE';
 import enGB from '../../snippet/en-GB';
 
 Shopware.Module.register('swag-example', {
-    type: 'plugin',
+    type: 'core',
     name: 'Shop Finder',
     title: 'swag-example.general.mainMenuItemGeneral',
     description: 'swag-example.general.descriptionTextModule',
@@ -19,28 +19,20 @@ Shopware.Module.register('swag-example', {
     },
 
     routes: {
-        // list: {
-        //     component: 'swag-example-list',
-        //     path: 'list'
-        // },
-        // detail: {
-        //     component: 'swag-example-detail',
-        //     path: 'detail/:id',
-        //     meta: {
-        //         parentPath: 'swag.example.list'
-        //     }
-        // },
-        // create: {
-        //     component: 'swag-example-create',
-        //     path: 'create',
-        //     meta: {
-        //         parentPath: 'swag.example.list'
-        //     }
+        // index: {
+        //     index: {
+        //         components: {
+        //             default: 'swag-example-list',
+        //         },
+        //         path: 'index',
+        //     },
         // }
         index: {
-            component: 'swag-example-list',
-            path: 'index'
-        }
+            components: {
+                default: 'swag-example-list',
+            },
+            path: 'index',
+        },
     },
 
     navigation: [{
@@ -48,6 +40,7 @@ Shopware.Module.register('swag-example', {
         color: '#ff3d58',
         path: 'swag.example.index',
         icon: 'default-shopping-paper-bag-product',
-        position: 100
+        position: 100,
+        // parent: 'sw-settings',
     }]
 });
