@@ -1,0 +1,71 @@
+{% block swag_example_detail %}
+    <sw-page class="swag-example-detail">
+        <template #smart-bar-actions>
+            <sw-button :routerLink="{name: 'swag.example.index'}">
+                {{ $tc('swag-example.detail.cancelButtonText') }}
+            </sw-button>
+
+            <sw-button-process
+                :isLoading="isLoading"
+                :processSuccess="processSuccess"
+                variant="primary"
+                @process-finish="saveFinish"
+                @click="onClickSave">
+                {{ $tc('swag-example.detail.saveButtonText') }}
+            </sw-button-process>
+        </template>
+        <template #content>
+            <sw-card-view>
+                <sw-card v-if="shop" :isLoading="isLoading">
+                    <sw-text-field
+                        v-model="shop.name"
+                        :label="$tc('swag-example.detail.nameLabel')"
+                    >
+                    </sw-text-field>
+                    <p>Debug: {{ shop.name }}</p>
+
+                    <sw-text-field
+                        v-model="shop.street"
+                        :label="$tc('swag-example.detail.streetLabel')"
+                    >
+                    </sw-text-field>
+
+                    <sw-text-field
+                        v-model="shop.postCode"
+                        :label="$tc('swag-example.detail.postCodeLabel')"
+                    >
+                    </sw-text-field>
+
+                    <sw-text-field
+                        v-model="shop.city"
+                        :label="$tc('swag-example.detail.cityLabel')"
+                    >
+                    </sw-text-field>
+
+                    <sw-radio-field
+                        :label="$tc('swag-example.detail.statusLabel')"
+                        v-model="shop.active"
+                        :options="options"
+                    >
+                    </sw-radio-field>
+
+{#                    <sw-entity-many-to-many-select#}
+{#                        v-if="shop.countryId"#}
+{#                        v-model="shop.countryId"#}
+{#                        :localMode="shop.isNew()"#}
+{#                        :label="$tc('swag-example.detail.assignCountryLabel')"#}
+{#                    >#}
+{#                    </sw-entity-many-to-many-select>#}
+
+                    <sw-entity-single-select
+                        v-model="shop.countryId"
+                        :entity="countryRepository"
+                        :label="$tc('swag-example.detail.assignCountryLabel')"
+                        :placeholder="$tc('swag-example.detail.selectCountryPlaceholder')"
+                    >
+                    </sw-entity-single-select>
+                </sw-card>
+            </sw-card-view>
+        </template>
+    </sw-page>
+{% endblock %}

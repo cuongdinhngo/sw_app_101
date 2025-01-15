@@ -7,8 +7,22 @@
         "list": {
             "addButtonText": "Add bundle",
             "columnName": "Name",
-            "columnDiscountType": "Discount Type",
-            "columnDiscount": "Discount"
+            "columnStreet": "Street",
+            "columnCity": "City"
+        },
+        "detail": {
+            "nameLabel": "Name",
+            "streetLabel": "Street",
+            "postCodeLabel": "Post code",
+            "cityLabel": "City",
+            "statusLabel": "Status",
+            "saveButtonText": "Save",
+            "errorTitle": "Error saving the bundle",
+            "activeText": "Active",
+            "disabledText": "Disabled",
+            "assignCountryLabel": "Assign Country",
+            "cancelButtonText": "Cancel",
+            "selectCountryPlaceholder": "Please select country"
         }
     }
 }

@@ -11,7 +11,7 @@ Component.register('swag-example-list', {
     data() {
         return {
             repository: null,
-            bundles: null
+            shops: []
         };
     },
     metaInfo() {
@@ -29,9 +29,13 @@ Component.register('swag-example-list', {
     },
     methods: {
         createdComponent() {
-            this.repository = this.repositoryFactory.create('swag_example');
+            this.repository = this.repositoryFactory.create('swag_shop_finder');
             this.repository.search(new Criteria(), Shopware.Context.api).then((result) => {
-                this.bundles = result;
+                console.log('search ...');
+                console.log(result);
+                this.shops = result;
+            }).catch((error) => {
+                console.error('Error fetching shops:', error);
             });
         },
 
@@ -46,14 +50,14 @@ Component.register('swag-example-list', {
                     primary: true
                 },
                 {
-                    property: 'discount',
-                    label: this.$tc('swag-example.list.columnDiscount'),
-                    inlineEdit: 'number',
+                    property: 'street',
+                    label: this.$tc('swag-example.list.columnStreet'),
+                    inlineEdit: 'string',
                     allowResize: true
                 },
                 {
-                    property: 'discountType',
-                    label: this.$tc('swag-example.list.columnDiscountType'),
+                    property: 'city',
+                    label: this.$tc('swag-example.list.columnCity'),
                     allowResize: true
                 }
             ];
