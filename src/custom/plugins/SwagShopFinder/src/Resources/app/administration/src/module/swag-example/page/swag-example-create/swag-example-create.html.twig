@@ -1,5 +1,5 @@
-{% block swag_example_detail %}
-    <sw-page class="swag-example-detail">
+{% block swag_example_create %}
+    <sw-page class="swag-example-create">
         <template #smart-bar-actions>
             <sw-button :routerLink="{name: 'swag.example.index'}">
                 {{ $tc('swag-example.detail.cancelButtonText') }}
@@ -16,7 +16,7 @@
         </template>
         <template #content>
             <sw-card-view>
-                <sw-card v-if="shop" :isLoading="isLoading">
+                <sw-card>
                     <sw-text-field
                         v-model:value="shop.name"
                         label="Name"

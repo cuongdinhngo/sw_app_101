@@ -5,7 +5,7 @@
             "descriptionTextModule": "[en-GB] Shop Finder Plugin"
         },
         "list": {
-            "addButtonText": "Add bundle",
+            "addButtonText": "Add shop",
             "columnName": "Name",
             "columnStreet": "Street",
             "columnCity": "City"

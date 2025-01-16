@@ -21,16 +21,14 @@ Component.register('swag-example-detail', {
             shop: null,
             isLoading: false,
             processSuccess: false,
-            repository: null,
-            countryRepository: null,
             countries: null,
         };
     },
     computed: {
         options() {
             return [
-                {value: '1', name: this.$tc('swag-example.detail.activeText')},
-                {value: '0', name: this.$tc('swag-example.detail.disabledText')}
+                {value: true, name: this.$tc('swag-example.detail.activeText')},
+                {value: false, name: this.$tc('swag-example.detail.disabledText')}
             ];
         }
     },
@@ -44,19 +42,19 @@ Component.register('swag-example-detail', {
             console.log(this.repository);
             this.getShop();
             this.countryRepository = this.repositoryFactory.create('country');
+            this.criteria = new Criteria();
+            this.criteria.addSorting(Criteria.sort('name', 'ASC'));
             this.countryRepository.search(new Criteria(), Shopware.Context.api).then((countries) => {
-                this.countries = countries;
+                this.countries = countries.map((country) => ({
+                    value: country.id,
+                    label: country.name,
+                }));
             });
         },
 
         getShop() {
-            console.log(Shopware.Context.api)
-            console.log("route ....");
-            console.log(this.$route);
-            console.log(this.$route.params);
             this.repository.get(this.$route.params.id, Shopware.Context.api).then((entity) => {
                 console.log('get shop by id');
-                console.log(entity);
                 this.shop = entity;
             });
         },

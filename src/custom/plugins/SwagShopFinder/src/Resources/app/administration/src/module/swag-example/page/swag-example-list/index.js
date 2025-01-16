@@ -11,7 +11,7 @@ Component.register('swag-example-list', {
     data() {
         return {
             repository: null,
-            shops: []
+            shops: null
         };
     },
     metaInfo() {
@@ -31,8 +31,6 @@ Component.register('swag-example-list', {
         createdComponent() {
             this.repository = this.repositoryFactory.create('swag_shop_finder');
             this.repository.search(new Criteria(), Shopware.Context.api).then((result) => {
-                console.log('search ...');
-                console.log(result);
                 this.shops = result;
             }).catch((error) => {
                 console.error('Error fetching shops:', error);

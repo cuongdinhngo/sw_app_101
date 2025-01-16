@@ -6,16 +6,10 @@ const { Component } = Shopware;
 //ToDo: make a 'onClickSave' method, which saves your new object and after that uses 'this.$router.push' to redirect to your detail page
 //ToDo: add 'catch' to your chain to create an error notification
 
-console.log("swag-example-create ....")
-
 Component.extend('swag-example-create', 'swag-example-detail', {
     methods: {
         getShop() {
-            console.log('Shop initialized:', this.shop);
-            if (!this.shop) {
-                console.log('[swag-example-create] getShop ....');
-                this.shop = this.repository.create(Shopware.Context.api);
-            }
+            this.shop = this.repository.create(Shopware.Context.api);
         },
 
         onClickSave() {
@@ -25,6 +19,7 @@ Component.extend('swag-example-create', 'swag-example-detail', {
                 this.isLoading = false;
                 this.$router.push({name: 'swag.example.detail', params: {id: this.shop.id}})
             }).catch((exception) => {
+                console.log(exception);
                 this.isLoading = false;
                 this.createNotificationError({
                     title: this.$tc('swag-example.detail.errorTitle'),
