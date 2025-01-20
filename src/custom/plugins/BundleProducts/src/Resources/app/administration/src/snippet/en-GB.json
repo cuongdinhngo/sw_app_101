@@ -1,0 +1,25 @@
+{
+    "bundle": {
+        "general": {
+            "mainMenuItemGeneral": "Products Bundle",
+            "descriptionTextModule": "Manage products bundles"
+        },
+        "list": {
+            "addButtonText": "Add Bundle",
+            "columnName": "Name",
+            "columnDiscountType": "Discount Type",
+            "columnDiscount": "Discount"
+        },
+        "detail": {
+            "nameLabel": "Name",
+            "discountTypeLabel": "Discount Type",
+            "discountLabel": "Discount",
+            "assignProductsLabel": "Assigned Products",
+            "cancelButtonText": "Cancel",
+            "saveButtonText": "Save",
+            "errorTitle": "Error saving the bundle",
+            "absoluteText": "Absolute",
+            "percentageText": "Percentage"
+        }
+    }
+}

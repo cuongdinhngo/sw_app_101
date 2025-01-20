@@ -49,7 +49,7 @@ Shopware.Module.register('swag-example', {
         label: 'swag-example.general.mainMenuItemGeneral',
         color: '#ff3d58',
         path: 'swag.example.index',
-        // icon: 'default-shopping-paper-bag-product',
+        icon: 'regular-home',
         position: 100,
     }]
 });

@@ -1,0 +1,24 @@
+{% block bundle_list %}
+    <sw-page class="bundle-list">
+        {% block bundle_list_smart_bar_actions %}
+        <template #smart-bar-actions>
+            <sw-button variant="primary" :routerLink="{ name: 'bundle.products.create' }">
+                {{ $tc('bundle.list.addButtonText') }}
+            </sw-button>
+        </template>
+        {% endblock %}
+        <template #content>
+            {% block bundle_list_content %}
+            <sw-entity-listing
+                v-if="bundles"
+                :items="bundles"
+                :repository="repository"
+                :showSelection="false"
+                :columns="columns"
+                detailRoute="bundle.products.detail"
+            >
+            </sw-entity-listing>
+            {% endblock %}
+        </template>
+    </sw-page>
+{% endblock %}

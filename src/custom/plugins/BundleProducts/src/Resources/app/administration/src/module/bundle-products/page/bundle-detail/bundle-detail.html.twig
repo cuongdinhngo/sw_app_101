@@ -1,0 +1,43 @@
+{% block bundle_detail %}
+    <sw-page class="bundle-detail">
+        {% block bundle_list_smart_bar_actions %}
+            <template #smart-bar-actions>
+                <sw-button variant="primary" :routerLink="{ name: 'bundle.products.index' }">
+                    {{ $tc('bundle.detail.cancelButtonText') }}
+                </sw-button>
+
+                <sw-button-process
+                    :isLoading="isLoading"
+                    :processSuccess="processSuccess"
+                    variant="primary"
+                    @process-finish="saveFinish"
+                    @click="onClickSave"
+                >
+                    {{ $tc('bundle.detail.saveButtonText') }}
+                </sw-button-process>
+            </template>
+        {% endblock %}
+        <template #content>
+            {% block bundle_detail_content %}
+                <sw-card-view>
+                    <sw-card v-if="bundle" :isLoading="isLoading">
+                        <sw-text-field v-model:value="bundle.name" :label="$tc('bundle.detail.nameLabel')"></sw-text-field>
+                        <sw-number-field v-model:value="bundle.discount" :label="$tc('bundle.detail.discountLabel')"></sw-number-field>
+                        <sw-radio-field
+                            v-model:value="bundle.discountType"
+                            :label="$tc('bundle.detail.discountTypeLabel')"
+                            :options="options"
+                        >
+                        </sw-radio-field>
+                        <sw-entity-many-to-many-select
+                                :localMode="bundle.isNew()"
+                                :label="$t('bundle.detail.assignProductsLabel')"
+                                :entityCollection="bundle.products"
+                                @update:entity-collection="bundle.products = $event">
+                        </sw-entity-many-to-many-select>
+                    </sw-card>
+                </sw-card-view>
+            {% endblock %}
+        </template>
+    </sw-page>
+{% endblock %}

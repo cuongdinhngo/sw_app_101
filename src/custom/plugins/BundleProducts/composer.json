@@ -1,0 +1,28 @@
+{
+    "name": "qt-products/bundle-products",
+    "description": "bundle-products/bundle-products",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "BundleProducts\\BundleProducts",
+        "label": {
+            "de-DE": "Bundle products plugin",
+            "en-GB": "Bundle products plugin"
+        },
+        "plugin-icon": "src/Resources/public/img/cargo.png"
+    },
+    "autoload": {
+        "psr-4": {
+            "BundleProducts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BundleProducts\\Tests\\": "tests/"
+        }
+    }
+}

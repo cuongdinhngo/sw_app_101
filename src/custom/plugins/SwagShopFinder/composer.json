@@ -12,7 +12,8 @@
         "label": {
             "de-DE": "ShopFinder plugin",
             "en-GB": "ShopFinder plugin"
-        }
+        },
+        "plugin-icon": "src/Resources/public/img/shop_finder.png"
     },
     "autoload": {
         "psr-4": {

@@ -18,10 +18,10 @@ Component.register('swag-example-detail', {
     },
     data() {
         return {
-            shop: null,
+            shop: {},
             isLoading: false,
             processSuccess: false,
-            countries: null,
+            countries: [],
         };
     },
     computed: {
