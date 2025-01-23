@@ -1,0 +1,9 @@
+{% block sw_customer_base_form_tag_field %}
+    {% parent %}
+    <sw-radio-field
+        v-model:value="customer.enableBirthdayEmail"
+        :label="$tc('birthdayEmail.enableBirthdayEmailLabel')"
+        :options="options"
+    ></sw-radio-field>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+    "birthdayEmail": {
+      "enableBirthdayEmailLabel": "Enable sending birthday email",
+      "optionYes": "Yes",
+      "optionNo": "No",
+      "emptyEnableBirthdayEmail": "Not set"
+    }
+  }

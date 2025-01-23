@@ -1,0 +1,23 @@
+{% block sw_customer_base_metadata_birthday_content %}
+    {% parent %}
+    <dd v-if="!customerEditMode" class="sw-customer-base__label-birthday-email">
+        <template v-if="customer.enableBirthdayEmail !== null">
+            {{ $tc(
+                'birthdayEmail.enableBirthdayEmailLabel',
+                customer.enableBirthdayEmail ? 0 : 1
+            ) }}
+        </template>
+        <template v-else>
+            {{ $tc('birthdayEmail.emptyEnableBirthdayEmail') }}
+        </template>
+    </dd>
+
+    <dd v-else>
+        <sw-switch-field
+            v-model:value="customer.enableBirthdayEmail"
+            name="sw-field--customer-enableBirthdayEmail"
+            size="small"
+            :label="$tc('birthdayEmail.enableBirthdayEmailLabel')"
+        />
+    </dd>
+{% endblock %}

@@ -1,0 +1,28 @@
+{
+    "name": "birthday-email/birthday-email",
+    "description": "birthday-email/birthday-email",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "BirthdayEmail\\BirthdayEmail",
+        "label": {
+            "de-DE": "Happy Birthday Email",
+            "en-GB": "Happy Birthday Email"
+        },
+        "plugin-icon": "src/Resources/public/img/cake.png"
+    },
+    "autoload": {
+        "psr-4": {
+            "BirthdayEmail\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BirthdayEmail\\Tests\\": "tests/"
+        }
+    }
+}

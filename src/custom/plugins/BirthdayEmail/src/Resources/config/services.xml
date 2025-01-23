@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="BirthdayEmail\Command\SendBirthdayEmailCommand">
+            <argument type="service" id="customer.repository" />
+            <argument type="service" id="mail_template_translation.repository" />
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="logger"/>
+            <tag name="console.command"/>
+        </service>
+
+        <!-- <service id="BirthdayEmail\ScheduledTask\ExampleTask">
+            <tag name="shopware.scheduled.task"/>
+        </service> -->
+
+        <service id="BirthdayEmail\Service\ScheduledTask\SendBirthdayEmailTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="BirthdayEmail\Service\ScheduledTask\SendBirthdayEmailTaskHandler">
+            <argument type="service" id="scheduled_task.repository"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="BirthdayEmail\Command\SendBirthdayEmailCommand"/>
+            <tag name="messenger.message_handler" />
+        </service>
+
+    </services>
+</container>
