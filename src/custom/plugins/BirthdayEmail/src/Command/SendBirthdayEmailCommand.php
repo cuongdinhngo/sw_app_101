@@ -23,6 +23,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Psr\Log\LoggerInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 
 #[AsCommand(
     name: 'send-birthday-email',
@@ -52,15 +53,16 @@ class SendBirthdayEmailCommand extends Command
     // Actual code executed in the command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger->info('####### Execute command ####### ');
+        $this->logger->info('####### Start sending birthday email ####### ');
         $output->writeln('Start sending birthday email .....');
         $context = Context::createCLIContext();
 
         $templateId = $input->getOption('templateId') ?? self::DEFAULT_MAIL_TEMPLATE_ID;
         $mailTemplate = $this->getMailTemplate($templateId, $context)[0];
 
-        $today = (new DateTime())->format('Y-m-d');
-        $today = '1990-01-01';
+        $today = (new DateTime())->format('m-d');
+        //set today for testing
+        // $today = '01-01';
         $customers = $this->getUsersByBirthday($today, $context);
 
 
@@ -72,7 +74,7 @@ class SendBirthdayEmailCommand extends Command
         }
 
         $output->writeln('DONE');
-        $this->logger->info('####### COMMAND DONE ####### ');
+        $this->logger->info('####### Sending birthday email was DONE ####### ');
 
         return 0;
     }
@@ -100,7 +102,8 @@ class SendBirthdayEmailCommand extends Command
     private function getUsersByBirthday(string $today, Context $context): EntityCollection
     {
         $criteria = (new Criteria())
-            ->addFilter(new EqualsFilter('birthday', $today))
+            // ->addFilter(new EqualsFilter('birthday', $today))
+            ->addFilter(new ContainsFilter('birthday', '-' . $today))
             ->addFilter(new EqualsFilter('customFields.enable_birthday_email', 1));
 
         return $this->customerRepository->search($criteria, $context)->getEntities();

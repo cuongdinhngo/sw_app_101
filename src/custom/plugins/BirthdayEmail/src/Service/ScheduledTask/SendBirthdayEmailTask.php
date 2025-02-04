@@ -13,6 +13,6 @@ class SendBirthdayEmailTask extends ScheduledTask
 
     public static function getDefaultInterval(): int
     {
-        return 300; // 5 minutes
+        return 300;
     }
 }

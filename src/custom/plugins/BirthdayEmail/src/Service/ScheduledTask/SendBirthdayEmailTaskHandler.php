@@ -31,7 +31,7 @@ class SendBirthdayEmailTaskHandler extends ScheduledTaskHandler
     {
         try {
             $this->logger->info('>>>>>>>> Start application ........');
-            $input = new ArrayInput([]); // Pass arguments if needed
+            $input = new ArrayInput([]);
             $output = new BufferedOutput();
 
             $result = $this->command->run($input, $output);
