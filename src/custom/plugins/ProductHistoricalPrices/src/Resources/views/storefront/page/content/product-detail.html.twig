@@ -1,0 +1,52 @@
+{% sw_extends '@Storefront/storefront/page/content/product-detail.html.twig' %}
+
+{% block base_main_inner %}
+    {{ parent() }}
+
+    <div class="cheapest-price-container">
+        <form id="days-form" method="get">
+            <label for="days">Select Date Range:</label>
+            <select id="days" name="days" onchange="document.getElementById('days-form').submit();">
+                <option value="3" {{ page.daysRange == 3 ? 'selected' : '' }}>Last 3 Days</option>
+                <option value="7" {{ page.daysRange == 7 ? 'selected' : '' }}>Last 7 Days</option>
+                <option value="14" {{ page.daysRange == 14 ? 'selected' : '' }}>Last 14 Days</option>
+                <option value="21" {{ page.daysRange == 21 ? 'selected' : '' }}>Last 21 Days</option>
+                <option value="30" {{ page.daysRange == 30 ? 'selected' : '' }}>Last 30 Days</option>
+            </select>
+        </form>
+        {% if page.cheapestPrice is defined and page.cheapestPrice is not null %}
+            <div class="cheapest-price">
+                <h5>Cheapest Price in Last {{ page.daysRange }} Days: {{ page.cheapestPrice }}</h5>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Include the historical prices table #}
+    {% block product_detail_historical_prices %}
+        {% if page.historicalPrices is defined and page.historicalPrices is not empty %}
+            <div class="product-historical-prices">
+                <h5>Price History</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Price</th>
+                            <th>Date of Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for price in page.historicalPrices %}
+                            <tr>
+                                <td>{{ price.price }}</td>
+                                <td>{{ price.timestamp|date('Y-m-d H:i') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2">No historical data available.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

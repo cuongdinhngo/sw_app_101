@@ -1,0 +1,28 @@
+{
+    "name": "product-historical-prices/product-historical-prices",
+    "description": "product-historical-prices/product-historical-prices",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "ProductHistoricalPrices\\ProductHistoricalPrices",
+        "label": {
+            "de-DE": "Product Historical Prices",
+            "en-GB": "Product Historical Prices"
+        },
+        "plugin-icon": "src/Resources/public/img/price_tag.png"
+    },
+    "autoload": {
+        "psr-4": {
+            "ProductHistoricalPrices\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ProductHistoricalPrices\\Tests\\": "tests/"
+        }
+    }
+}

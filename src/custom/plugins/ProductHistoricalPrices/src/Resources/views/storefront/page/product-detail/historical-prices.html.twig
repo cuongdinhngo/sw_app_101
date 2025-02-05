@@ -1,0 +1,25 @@
+{% block product_detail_historical_prices %}
+    <div class="product-historical-prices">
+        <h3>Price History</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Price</th>
+                    <th>Date of Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for price in historicalPrices %}
+                    <tr>
+                        <td>{{ price.price|currency }}</td>
+                        <td>{{ price.timestamp|date('Y-m-d H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">No historical data available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
