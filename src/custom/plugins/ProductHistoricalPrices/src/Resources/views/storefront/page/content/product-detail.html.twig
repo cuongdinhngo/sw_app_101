@@ -18,6 +18,10 @@
             <div class="cheapest-price">
                 <h5>Cheapest Price in Last {{ page.daysRange }} Days: {{ page.cheapestPrice }}</h5>
             </div>
+        {% else %}
+            <div class="cheapest-price">
+                <h5>No historical prices</h5>
+            </div>
         {% endif %}
     </div>
 

@@ -47,9 +47,10 @@ class ProductHistoricalPricesPageSubscriber implements EventSubscriberInterface
         $days = $request->query->getInt('days', $this->daysRange);
         $this->logger->info('@@@ ProductId', ['productId' => $productId, 'days' => $days]);
 
+
         $event->getPage()->assign([
-            'historicalPrices' => $this->getHistoricalPrices($productId, $days),
-            'cheapestPrice' => $this->getCheapestPrice($productId, $days),
+            'historicalPrices' => $productId ? $this->getHistoricalPrices($productId, $days) :  null,
+            'cheapestPrice' => $productId ? $this->getCheapestPrice($productId, $days) : null,
             'daysRange' => $days
         ]);
     }
