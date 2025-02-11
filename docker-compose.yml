@@ -11,17 +11,21 @@ services:
          - "8888:8888"
          - "9999:9999"
          - "8080:8080"
+         - "9003:9003"
       volumes:
          - "db_volume:/var/lib/mysql"
          - "./src:/var/www/html"
       networks:
          - web
       environment:
-         # default = 0, recommended to be OFF for frontend devs
-         - XDEBUG_ENABLED=1
          # default = latest PHP, optional = specific version
          - PHP_VERSION=8.3
          - HOST=0.0.0.0
+         - XDEBUG_ENABLED=1
+         - XDEBUG_MODE=debug
+         - XDEBUG_START_WITH_REQUEST=yes
+         - XDEBUG_CLIENT_HOST=host.docker.internal
+         - XDEBUG_CLIENT_PORT=9003
 
 volumes:
   db_volume:
