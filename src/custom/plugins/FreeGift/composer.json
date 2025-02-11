@@ -1,0 +1,28 @@
+{
+    "name": "free-gift/free-gift",
+    "description": "free-gift/free-gift",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.6.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "FreeGift\\FreeGift",
+        "label": {
+            "de-DE": "Free Gift Registration",
+            "en-GB": "Free Gift Registration"
+        },
+        "plugin-icon": "src/Resources/public/img/gift.png"
+    },
+    "autoload": {
+        "psr-4": {
+            "FreeGift\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FreeGift\\Tests\\": "tests/"
+        }
+    }
+}

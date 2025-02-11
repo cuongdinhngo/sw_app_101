@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="FreeGift\Subscriber\RegistrationGiftSubscriber">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="FreeGift\Service\FreeGiftService" />
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack"/>
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="FreeGift\Subscriber\SubmittedOrderSubscriber">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="customer.repository"/>
+            
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="FreeGift\Core\Checkout\Cart\CustomCartCollector">
+            <argument type="service" id="logger" />
+            <argument type="service" id="FreeGift\Service\FreeGiftService" />
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            
+            <tag name="shopware.cart.collector" priority="4800"/>
+            <tag name="shopware.cart.processor" priority="4800"/>
+        </service>
+
+        <service id="FreeGift\Service\FreeGiftService">
+            <argument type="service" id="customer.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+        <service id="FreeGift\Service\CustomFieldsInstaller">
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field_set_relation.repository"/>
+        </service>
+
+        <service id="FreeGift\Service\CustomFieldsCleaner">
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field_set_relation.repository"/>
+            <argument type="service" id="custom_field.repository"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+    </services>
+</container>
