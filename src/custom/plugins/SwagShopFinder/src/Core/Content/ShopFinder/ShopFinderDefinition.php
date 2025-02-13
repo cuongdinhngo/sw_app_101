@@ -9,6 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\FloatField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\System\Country\CountryDefinition;
@@ -38,12 +39,13 @@ class ShopFinderDefinition extends EntityDefinition
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             (new StringField('name', 'name'))->addFlags(new Required()),
             (new StringField('street', 'street'))->addFlags(new Required()),
-            (new StringField('post_code', 'postCode'))->addFlags(new Required()),
             (new StringField('city', 'city'))->addFlags(new Required()),
             (new StringField('url', 'url')),
             (new StringField('telephone', 'telephone')),
             (new StringField('open_times', 'openTimes')),
             (new BoolField('active', 'active')),
+            (new FloatField('latitude', 'latitude')),
+            (new FloatField('longitude', 'longitude')),
             new FkField('country_id', 'countryId', CountryDefinition::class),
             new ManyToOneAssociationField(
                 'country',

@@ -9,14 +9,14 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use SwagShopFinder\Service\CustomFieldsInstaller;
+use SwagShopFinder\Service\PluginCleaner;
+use Doctrine\DBAL\Connection;
 
 class SwagShopFinder extends Plugin
 {
     public function install(InstallContext $installContext): void
     {
         // Do stuff such as creating a new payment method
-
-        $this->getCustomFieldsInstaller()->install($installContext->getContext());
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -28,14 +28,13 @@ class SwagShopFinder extends Plugin
         }
 
         // Remove or deactivate the data created by the plugin
+        $this->getPluginCleaner()->execute();
     }
 
     public function activate(ActivateContext $activateContext): void
     {
         // Activate entities, such as a new payment method
         // Or create new entities here, because now your plugin is installed and active for sure
-
-        $this->getCustomFieldsInstaller()->addRelations($activateContext->getContext());
     }
 
     public function deactivate(DeactivateContext $deactivateContext): void
@@ -57,15 +56,12 @@ class SwagShopFinder extends Plugin
     {
     }
 
-    private function getCustomFieldsInstaller(): CustomFieldsInstaller
+    private function getPluginCleaner(): PluginCleaner
     {
-        if ($this->container->has(CustomFieldsInstaller::class)) {
-            return $this->container->get(CustomFieldsInstaller::class);
+        if ($this->container->has(PluginCleaner::class)) {
+            return $this->container->get(PluginCleaner::class);
         }
 
-        return new CustomFieldsInstaller(
-            $this->container->get('custom_field_set.repository'),
-            $this->container->get('custom_field_set_relation.repository')
-        );
+        return new PluginCleaner($this->container->get(Connection::class));
     }
 }

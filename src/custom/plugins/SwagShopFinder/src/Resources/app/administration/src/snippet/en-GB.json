@@ -22,7 +22,9 @@
             "disabledText": "Disabled",
             "assignCountryLabel": "Assign Country",
             "cancelButtonText": "Cancel",
-            "selectCountryPlaceholder": "Please select country"
+            "selectCountryPlaceholder": "Please select country",
+            "latitudeLabel": "Latitude",
+            "longitudeLabel": "Longitude"
         }
     }
 }

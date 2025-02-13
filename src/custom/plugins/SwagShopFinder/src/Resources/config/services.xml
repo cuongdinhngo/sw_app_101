@@ -6,7 +6,10 @@
 
     <services>
 
-        <service id="SwagShopFinder\Command\ExampleCommand">
+        <service id="SwagShopFinder\Command\CreateMockDataCommand">
+            <argument id="swag_shop_finder.repository" type="service" />
+            <argument id="country.repository" type="service" />
+
             <tag name="console.command"/>
         </service>
 
@@ -35,9 +38,8 @@
             <tag name="shopware.entity.definition" entity="swag_shop_finder" />
         </service>
 
-        <service id="SwagShopFinder\Service\CustomFieldsInstaller">
-            <argument type="service" id="custom_field_set.repository"/>
-            <argument type="service" id="custom_field_set_relation.repository"/>
+        <service id="SwagShopFinder\Service\PluginCleaner">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
 
         <service id="SwagShopFinder\Core\Api\DemoDataController" public="true">

@@ -28,11 +28,6 @@
                     ></sw-text-field>
 
                     <sw-text-field
-                        v-model:value="shop.postCode"
-                        :label="$tc('swag-example.detail.postCodeLabel')"
-                    ></sw-text-field>
-
-                    <sw-text-field
                         v-model:value="shop.city"
                         :label="$tc('swag-example.detail.cityLabel')"
                     ></sw-text-field>
@@ -49,6 +44,16 @@
                         :placeholder="$tc('swag-example.detail.selectCountryPlaceholder')"
                         :label="$tc('swag-example.detail.assignCountryLabel')"
                     ></sw-single-select>
+
+                    <sw-text-field
+                        v-model:value="shop.latitude"
+                        :label="$tc('swag-example.detail.latitudeLabel')"
+                    ></sw-text-field>
+
+                    <sw-text-field
+                        v-model:value="shop.longitude"
+                        :label="$tc('swag-example.detail.longitudeLabel')"
+                    ></sw-text-field>
                 </sw-card>
             </sw-card-view>
         </template>

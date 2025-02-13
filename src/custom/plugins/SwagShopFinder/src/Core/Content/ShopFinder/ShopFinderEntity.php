@@ -26,6 +26,10 @@ class ShopFinderEntity extends Entity
 
     protected ?string $openTimes;
 
+    protected ?float $latitude;
+
+    protected ?float $longitude;
+
     protected ?CountryEntity $country;
 
     /**
@@ -91,16 +95,6 @@ class ShopFinderEntity extends Entity
         return $this->city;
     }
 
-    public function setPostCode(string $postCode): void
-    {
-        $this->postCode = $postCode;
-    }
-
-    public function getPostCode(): string
-    {
-        return $this->postCode;
-    }
-
     public function setStreet(string $street): void
     {
         $this->street = $street;
@@ -129,5 +123,25 @@ class ShopFinderEntity extends Entity
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function setLatitude(?float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLongitude(?float $longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
     }
 }
