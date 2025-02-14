@@ -38,7 +38,7 @@ class CustomCartCollector implements CartDataCollectorInterface, CartProcessorIn
     {
         $this->logger->debug('###[FREE_REGISTRATION_GIFT] Triggered Collector ...');
 
-        if ($this->isReceivedFreeRegistrationGift($context)) {
+        if (empty($context->getCustomer()) || $this->isReceivedFreeRegistrationGift($context)) {
             return;
         }
 
@@ -78,7 +78,7 @@ class CustomCartCollector implements CartDataCollectorInterface, CartProcessorIn
     {
         $this->logger->debug('###[FREE_REGISTRATION_GIFT] Triggered Processor ...');
 
-        if ($this->isReceivedFreeRegistrationGift($context)) {
+        if (empty($context->getCustomer()) || $this->isReceivedFreeRegistrationGift($context)) {
             return;
         }
 
@@ -126,10 +126,10 @@ class CustomCartCollector implements CartDataCollectorInterface, CartProcessorIn
         return $giftLineItem;
     }
 
-    private function isReceivedFreeRegistrationGift(SalesChannelContext $context): bool
+    private function isReceivedFreeRegistrationGift(SalesChannelContext $context): ?bool
     {
         $customer = $context->getCustomer();
 
-        return $customer ? $customer->getCustomFieldsValue('is_received_registration_gift') === true : false;
+        return $customer?->getCustomFieldsValue('is_received_registration_gift');
     }
 }
