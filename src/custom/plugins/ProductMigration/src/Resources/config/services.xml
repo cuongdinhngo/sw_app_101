@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="ProductMigration\Command\SplitCsvFilesCommand">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="ProductMigration\Command\ProcessCsvFilesCommand">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="ProductMigration\Service\ProductLoader"/>
+
+            <tag name="console.command"/>
+        </service>
+
+        <service id="ProductMigration\Service\ProductLoader">
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="ProductMigration\Service\PropertyGroupOptionLoader" />
+            <argument type="service" id="ProductMigration\Service\TagLoader" />
+            <argument type="service" id="ProductMigration\Service\ProductManufacturerLoader" />
+            <argument type="service" id="ProductMigration\Service\CategoryLoader" />
+        </service>
+
+        <service id="ProductMigration\Service\PropertyGroupOptionLoader">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service id="ProductMigration\Service\TagLoader">
+            <argument type="service" id="tag.repository" />
+        </service>
+
+        <service id="ProductMigration\Service\ProductManufacturerLoader">
+            <argument type="service" id="product_manufacturer.repository" />
+        </service>
+
+        <service id="ProductMigration\Extension\CategoryExtension">
+            <tag name="category.entity.extension" />
+        </service>
+
+
+        <service id="ProductMigration\Service\CategoryLoader">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+    </services>
+</container>
