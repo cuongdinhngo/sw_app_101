@@ -1,0 +1,44 @@
+{% block product_migration_form %}
+    <sw-page class="product-migration-form">
+        <template #smart-bar-actions>
+            <sw-button :routerLink="{name: 'swag.example.index'}">
+                {{ $tc('product-migration.detail.cancelButtonText') }}
+            </sw-button>
+
+            <sw-button-process
+                variant="primary"
+                @click="uploadFile"
+            >
+                {{ $tc('product-migration.detail.saveButtonText') }}
+            </sw-button-process>
+        </template>
+        <template #content>
+            <sw-alert v-if="uploadSuccess" variant="success" title="Success">
+                {{ responseMessage }}
+            </sw-alert>
+
+            <sw-alert v-if="processingState" variant="warning" title="Processing">
+                Product Migration is processing....
+            </sw-alert>
+
+            <sw-alert v-if="uploadError" variant="error" title="Error">
+                {{ responseMessage }}
+            </sw-alert>
+            <sw-card-view>
+                <sw-card>
+                    <sw-file-input
+                        v-model:value="csvFile"
+                        :label="$tc('product-migration.detail.uploadFileLabel')"
+                        :allowed-mime-types="['text/csv']"
+                        class="sw-import-export-new-profile-wizard-csv-page__file-upload"
+                        @update:value="onFileChange"
+                    >
+                    <template #caption-label>
+                        {{ $tc('product-migration.detail.uploadFileLabel') }}
+                    </template>
+                    </sw-file-input>
+                </sw-card>
+            </sw-card-view>
+        </template>
+    </sw-page>
+{% endblock %}

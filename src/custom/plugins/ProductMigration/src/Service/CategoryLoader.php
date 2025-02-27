@@ -2,13 +2,9 @@
 
 namespace ProductMigration\Service;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
 use ProductMigration\Service\Trait\DataTrait;
 use Shopware\Core\Defaults;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\Content\Category\CategoryDefinition;
 
@@ -21,10 +17,10 @@ class CategoryLoader
     ) {
     }
 
-    public function loadAllCategories(): self
+    public function loadAllCategories(): void
     {
         if (!empty($this->data)) {
-            return $this;
+            return;
         }
 
         $sql = '
@@ -42,19 +38,16 @@ class CategoryLoader
                 'categoryIdentifier' => $category['category_identifier'],
                 'parentCategoryId' => $category['parent_id'],
                 'parentCategoryIdentifier' => $category['parent_category_identifier'],
-                'name' => $category['name']
             ];
         }
 
         $this->data = $data;
-
-        return $this;
+        unset($data, $categories);
     }
 
     public function mapCategories(array $importedCategory): array
     {
         $category = $this->getValueByKey($importedCategory['categoryIdentifier']);
-        $data = [];
         if ($category) {
             $categoryId = $category['categoryId'];
         } else {
@@ -66,7 +59,6 @@ class CategoryLoader
                 'categoryIdentifier' => $importedCategory['categoryIdentifier'],
                 'parentCategoryId' => $parentCategoryId,
                 'parentCategoryIdentifier' => $importedCategory['parentCategoryIdentifier'],
-                'name' => $importedCategory['name']
             ];
             $this->add($importedCategory['categoryIdentifier'], $newCategory);
             if (!empty($importedCategory['parentCategoryIdentifier'])) {
@@ -75,18 +67,16 @@ class CategoryLoader
                     'categoryIdentifier' => $importedCategory['parentCategoryIdentifier'],
                     'parentCategoryId' => null,
                     'parentCategoryIdentifier' => null,
-                    'name' => $importedCategory['parentCategoryIdentifier'],
                 ];
                 $this->add($importedCategory['categoryIdentifier'], $newCategory);
             }
 
+            unset($newCategory);
             //category_id is existed but no name => that category_id have been created => update name in category_translation
 
         }
 
-        $data[] = ['id' => $categoryId];
-
-        return $data;
+        return [['id' => $categoryId]];
     }
 
     private function handleNewCategory(array $data): array
@@ -121,6 +111,8 @@ class CategoryLoader
                     ];
                     $this->createNewCategory($parentCategoryTranslationData, $parentCategoryData);
                     $parentId = Uuid::fromBytesToHex($parentId);
+
+                    unset($parentCategoryTranslationData, $parentCategoryData);
                 }
             }
             $categoryTranslationData = [
@@ -143,10 +135,12 @@ class CategoryLoader
             $this->createNewCategory($categoryTranslationData, $categoryData);
 
             $this->connection->commit();
+
             $newIds = [
                 'categoryId' => Uuid::fromBytesToHex($categoryId),
                 'parentCategoryId' => Uuid::fromBytesToHex($parentId),
             ];
+            unset($categoryTranslationData, $categoryData);
         } catch (\Exception $e) {
             $this->connection->rollBack();
             $newIds = [

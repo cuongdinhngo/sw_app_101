@@ -3,12 +3,24 @@
 namespace ProductMigration\Service\Trait;
 
 use DateTime;
+use Shopware\Core\Framework\Context;
 
 trait DataTrait
 {
+    public ?Context $context = null;
+
     public ?array $data = null;
 
     public ?DateTime $currentDateTime = null;
+
+    public function getDefaultContext(): Context
+    {
+        if (null === $this->context) {
+            $this->context = Context::createDefaultContext();
+        }
+
+        return $this->context;
+    }
 
     public function setData(mixed $data): void
     {

@@ -3,10 +3,7 @@
 namespace ProductMigration\Service;
 
 use ProductMigration\Service\Trait\DataTrait;
-use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Defaults;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -26,42 +23,36 @@ class ProductLoader
         private readonly ProductManufacturerLoader $productManufacturerLoader,
         private readonly CategoryLoader $categoryLoader
     ) {
+    }
+
+    public function loadProductComponents(): void
+    {
         $this->loadExistedProducts();
+        $this->propertyGroupOptionLoader->loadPropertyGroupOption();
+        $this->tagLoader->loadAllTags();
+        $this->productManufacturerLoader->loadProductManufacturers();
+        $this->categoryLoader->loadAllCategories();
     }
 
-    public function process(array $productData): void
+    public function upsertBatch(array $payloads): void
     {
-        $payload = $this->buildPayload($productData);
-        $this->productRepository->upsert([$payload], Context::createDefaultContext());
+        $this->productRepository->upsert($payloads, $this->getDefaultContext());
+        unset($payload);
     }
 
-    private function buildPayload(array $productData): array
+    public function buildPayload(array $productData): array
     {
-        $properties = $this->propertyGroupOptionLoader
-            ->loadPropertyGroupOption()
-            ->mapProductProperty($productData['variant']);
-
-        $tags = $this->tagLoader
-            ->loadAllTags()
-            ->mapProductTags($productData['tag']);
-        
-        $manufacturer = $this->productManufacturerLoader
-            ->loadProductManufacturers()
-            ->mapProductManufacturer($productData['manufacturer']);
-
-        $importedCategory = [
-            'categoryIdentifier' => $productData['category_id'],
-            'parentCategoryIdentifier' => $productData['parent_category_id'],
-            'name' => $productData['category_name'],
-        ];
-        $categories = $this->categoryLoader
-            ->loadAllCategories()
-            ->mapCategories($importedCategory);
-        
-        $id = $this->getValueByKey($productData['product_number']) ?? Uuid::randomHex();
+        $properties = $this->propertyGroupOptionLoader->mapProductProperty($productData['variant']);
+        $tags = $this->tagLoader->mapProductTags($productData['tag']);
+        $manufacturer = $this->productManufacturerLoader->mapProductManufacturer($productData['manufacturer']);
+        $categories = $this->categoryLoader->mapCategories([
+                'categoryIdentifier' => $productData['category_id'],
+                'parentCategoryIdentifier' => $productData['parent_category_id'],
+                'name' => $productData['category_name'],
+            ]);
 
         return [
-            'id' => $id,
+            'id' => $this->getValueByKey($productData['product_number']) ?? Uuid::randomHex(),
             'productNumber' => $productData['product_number'],
             'name' => $productData['name'],
             'description' => $productData['description'],
@@ -89,14 +80,14 @@ class ProductLoader
         }
 
         $criteria = new Criteria();
-        $context = Context::createDefaultContext();
-        $products = $this->productRepository->search($criteria, $context)->getEntities()->getElements();
+        $products = $this->productRepository->search($criteria, $this->getDefaultContext())->getEntities()->getElements();
         $results = [];
         foreach ($products as $product) {
             $results[$product->getProductNumber()] = $product->getId();
         }
 
         $this->data = $results;
+        unset($results, $products, $criteria);
 
         return $this;
     }

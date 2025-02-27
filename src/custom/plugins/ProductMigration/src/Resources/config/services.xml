@@ -43,9 +43,17 @@
             <tag name="category.entity.extension" />
         </service>
 
-
         <service id="ProductMigration\Service\CategoryLoader">
             <argument type="service" id="Doctrine\DBAL\Connection"/>
+        </service>
+
+        <service id="ProductMigration\Core\Controller\ProductMigrationController" public="true">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="ProductMigration\Service\ProductLoader"/>
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
     </services>

@@ -5,7 +5,6 @@ namespace ProductMigration\Service;
 use DateTime;
 use ProductMigration\Service\Trait\DataTrait;
 use Shopware\Core\Defaults;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -19,23 +18,21 @@ class ProductManufacturerLoader
     ) {
     }
 
-    public function loadProductManufacturers(): self
+    public function loadProductManufacturers(): void
     {
         if (!empty($this->data)) {
-            return $this;
+            return;
         }
 
         $criteria = new Criteria();
-        $context = Context::createDefaultContext();
-        $manufacturers = $this->productManufacturerRepository->search($criteria, $context)->getEntities()->getElements();
+        $manufacturers = $this->productManufacturerRepository->search($criteria, $this->getDefaultContext())->getEntities()->getElements();
         $results = [];
         foreach ($manufacturers as $manufacturer) {
             $results[$manufacturer->getName()] = $manufacturer->getId();
         }
 
         $this->data = $results;
-
-        return $this;
+        unset($results, $manufacturers, $criteria);
     }
 
     public function mapProductManufacturer(string $manufacturer): string
@@ -43,20 +40,15 @@ class ProductManufacturerLoader
         $id = $this->getValueByKey($manufacturer);
         if (!$id) {
             $id = Uuid::randomHex();
-            $this->createNewManufacturer($id, $manufacturer);
+            $data = [
+                'id' => $id,
+                'name' => $manufacturer,
+                'language_id' => Defaults::LANGUAGE_SYSTEM
+            ];
+            $this->productManufacturerRepository->create([$data], $this->getDefaultContext());
             $this->add($manufacturer, $id);
         }
 
         return $id;
-    }
-
-    private function createNewManufacturer(string $id, string $manufacturer): void
-    {
-        $data = [
-            'id' => $id,
-            'name' => $manufacturer,
-            'language_id' => Defaults::LANGUAGE_SYSTEM
-        ];
-        $this->productManufacturerRepository->create([$data], Context::createDefaultContext());
     }
 }

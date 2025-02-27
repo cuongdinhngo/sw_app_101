@@ -2,9 +2,7 @@
 
 namespace ProductMigration\Service;
 
-use DateTime;
 use ProductMigration\Service\Trait\DataTrait;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -18,33 +16,30 @@ class TagLoader
     ) {
     }
 
-    public function loadAllTags(): self
+    public function loadAllTags(): void
     {
         if (!empty($this->data)) {
-            return $this;
+            return;
         }
 
         $criteria = new Criteria();
-        $context = Context::createDefaultContext();
-        $tags = $this->tagRepository->search($criteria, $context)->getEntities()->getElements();
+        $tags = $this->tagRepository->search($criteria, $this->getDefaultContext())->getEntities()->getElements();
         $results = [];
         foreach ($tags as $tag) {
             $results[$tag->getName()] = $tag->getId();
         }
 
         $this->data = $results;
-
-        return $this;
+        unset($results, $tags);
     }
 
     public function mapProductTags(?string $importedTags): array
     {
-        $importedTags = array_map('trim', explode(';', $importedTags));
         $results = [];
-        foreach ($importedTags as $tag) {
+        foreach (array_map('trim', explode(';', $importedTags)) as $tag) {
             if (!$this->isExisted($tag)) {
                 $id = Uuid::randomHex();
-                $this->createNewTag($id, $tag);
+                $this->tagRepository->create(['id' => $id, 'name' => $tag], $this->getDefaultContext());
                 $this->add($tag, $id);
             } else {
                 $id = $this->getValueByKey($tag);
@@ -53,15 +48,5 @@ class TagLoader
         }
 
         return $results;
-    }
-
-    private function createNewTag(string $id, string $tag): void
-    {
-        $context = Context::createDefaultContext();
-        $tagData = [
-            'id' => $id,
-            'name' => $tag
-        ];
-        $this->tagRepository->create([$tagData], $context);
     }
 }

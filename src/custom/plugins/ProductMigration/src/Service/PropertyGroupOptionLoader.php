@@ -16,10 +16,10 @@ class PropertyGroupOptionLoader
     ) {
     }
 
-    public function loadPropertyGroupOption(): self
+    public function loadPropertyGroupOption(): void
     {
         if (!empty($this->data)) {
-            return $this;
+            return;
         }
 
         $query = '
@@ -39,24 +39,22 @@ class PropertyGroupOptionLoader
         $result = [];
         foreach ($data as $item) {
             $key = $item['property_group_translation_name'] . ':' . $item['property_group_option_translation_name'];
+            unset($item['property_group_translation_name'], $item['property_group_option_translation_name']);
             $result[$key] = $item;
         }
 
         $this->data = $result;
-
-        return $this;
+        unset($result, $data);
     }
 
     public function mapProductProperty(string $importedProductProperties): array
     {
-        $importedProductProperties = explode(';', $importedProductProperties);
         $result = [];
-        foreach ($importedProductProperties as $item) {
+        foreach (explode(';', $importedProductProperties) as $item) {
             $productProperty = $this->getValueByKey($item);
             if ($productProperty) {
                 $propertyGroupOptionId = $productProperty['property_group_option_id'];
                 $propertyGroupId = $productProperty['property_group_id'];
-                $propertyGroupTranslationValue = $productProperty['property_group_translation_name'];
             } else {
                 [$propertyGroupTranslationValue, $productPropertyOptionTranslationValue] = explode(':', $item);
                 $newOption = $this->getNewPropertyGroupOptionId($propertyGroupTranslationValue, $productPropertyOptionTranslationValue);
@@ -67,9 +65,7 @@ class PropertyGroupOptionLoader
                         $item,
                         [
                             'property_group_id' => $propertyGroupId,
-                            'property_group_option_id' => $propertyGroupOptionId,
-                            'property_group_option_translation_name' => $productPropertyOptionTranslationValue,
-                            'property_group_translation_name' => $propertyGroupTranslationValue
+                            'property_group_option_id' => $propertyGroupOptionId
                         ]
                     );
                 }
@@ -128,7 +124,7 @@ class PropertyGroupOptionLoader
             $option = [
                 'id' => $propertyGroupOptionId,
                 'property_group_id' => $propertyGroupId,
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => $this->getFormatedCurrentDateTime()
             ];
             $this->connection->insert('property_group_option', $option);
 
@@ -136,7 +132,7 @@ class PropertyGroupOptionLoader
                 'property_group_option_id' => $propertyGroupOptionId,
                 'name' => $productPropertyOptionTranslationValue, 
                 'language_id' => $languageEn,
-                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
+                'created_at' => $this->getFormatedCurrentDateTime()
             ];
             $this->connection->insert('property_group_option_translation', $optionTranslation);
             
@@ -146,6 +142,8 @@ class PropertyGroupOptionLoader
                 'propertyGroupId' => Uuid::fromBytesToHex($propertyGroupId),
                 'propertyGroupOptionId' => Uuid::fromBytesToHex($propertyGroupOptionId)
             ];
+
+            unset($option, $optionTranslation, $propertyGroupId, $propertyGroupOptionId, $languageEn);
         } catch (\Exception $e) {
             $this->connection->rollBack();
             $newIds = [

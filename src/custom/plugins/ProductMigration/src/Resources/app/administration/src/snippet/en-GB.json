@@ -1,0 +1,32 @@
+{
+    "product-migration": {
+        "general": {
+            "mainMenuItemGeneral": "Product Migration",
+            "descriptionTextModule": "[en-GB] Product Migration"
+        },
+        "list": {
+            "addButtonText": "Add shop",
+            "columnName": "Name",
+            "columnStreet": "Street",
+            "columnCity": "City"
+        },
+        "detail": {
+            "uploadFileLabel": "CSV product file",
+            "nameLabel": "Name",
+            "streetLabel": "Street",
+            "postCodeLabel": "Post code",
+            "cityLabel": "City",
+            "statusLabel": "Status",
+            "saveButtonText": "Upload",
+            "errorTitle": "Product Migration Error",
+            "errorMessage": "CSV file is required. Please select file!",
+            "activeText": "Active",
+            "disabledText": "Disabled",
+            "assignCountryLabel": "Assign Country",
+            "cancelButtonText": "Cancel",
+            "selectCountryPlaceholder": "Please select country",
+            "latitudeLabel": "Latitude",
+            "longitudeLabel": "Longitude"
+        }
+    }
+}
