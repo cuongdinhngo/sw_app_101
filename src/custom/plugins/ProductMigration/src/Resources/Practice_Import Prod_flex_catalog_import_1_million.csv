@@ -1,0 +1,6 @@
+product_number,name,description,price,category_name,category_id,parent_category_id,variant,manufacturer,tag
+P0000001,Product 1,Description of Product 1,858.56,Electronics,1001,1003,Color:Brown;Size:M,Samsung,Electronics;Living Room
+P0000002,Product 2,Description of Product 2,982.96,Electronics,1001,1001,Color:Brown;Size:XL,Samsung,Electronics;Utensils
+P0000003,Product 3,Description of Product 3,63.14,Electronics,1001,1004,Color:Red;Size:M,LG,Gadgets;Home
+P0000004,Product 4,Description of Product 4,203.74,Home Appliances,1002,,Color:White;Size:M;Voltage:220V,Philips,Gadgets;Smartphones
+P0000005,Product 5,Description of Product 5,138.47,Electronics,1001,1004,Color:Blue;Size:S,Panasonic,Smartphones;Kitchen

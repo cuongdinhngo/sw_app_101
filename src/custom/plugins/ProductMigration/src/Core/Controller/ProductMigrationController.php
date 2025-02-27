@@ -43,12 +43,12 @@ class ProductMigrationController extends AbstractController
             $payloads = [];
             foreach ($data as $key => $product) {
                 if ($key == 0) {
-                    $fileHeader = $product;
+                    $fileHeader = array_map('trim', $product);
                     continue;
                 }
 
                 $totalCount++;
-                $product = array_combine(array_map('trim', $fileHeader), array_map('trim', $product));
+                $product = array_combine($fileHeader, array_map('trim', $product));
                 $errors = $this->validate($product);
                 if (!empty($errors)) {
                     $this->logger->error(
